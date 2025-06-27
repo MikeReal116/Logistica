@@ -1,0 +1,93 @@
+<template>
+    <lightning-card title="Shipment Requests" icon-name="standard:shipment"
+        class="slds-is-relative slds-var-p-vertical_xx-large">
+        <template lwc:if={state.loading}>
+            <lightning-spinner alternative-text="Loading" size="x-small" class="slds-is-absolute"></lightning-spinner>
+        </template>
+        <template lwc:if={state.allShipmentRequests}>
+            <div slot="actions">
+                <div onclick={handleFilterByStatus}>
+                    <span class="slds-var-m-right_small"> Statuses</span>
+                    <template for:each={filterStatuses} for:item="status">
+                        <lightning-badge label={status.label} key={status.label} style={status.style}
+                            data-label={status.label}></lightning-badge>
+                    </template>
+                </div>
+                <template lwc:if={selectedFilterStatuses}>
+                    <div class="slds-var-m-top_small">
+                        <span class="slds-var-m-right_small">Filters:</span>
+                        <template for:each={selectedFilterStatuses} for:item="status">
+                            <lightning-pill key={status.label} label={status.label} onremove={handleRemoveFilter}
+                                data-label={status.label}></lightning-pill>
+                        </template>
+                    </div>
+                </template>
+            </div>
+        </template>
+        <template lwc:if={state.error}>
+            <div class="slds-text-color_error slds-p-around_medium">
+                <p>{state.error}</p>
+            </div>
+        </template>
+        <template lwc:elseif={state.shipmentRequests}>
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <template for:each={columns} for:item="column">
+                            <th scope="col" key={column.fieldName}>
+                                <div class="slds-truncate" title={column.label}>{column.label}</div>
+                            </th>
+                        </template>
+                        <th class="slds-cell_action-mode" scope="col" style="width:3rem">
+                            <div class="slds-truncate slds-assistive-text" title="Actions">Actions</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={state.shipmentRequests} for:item="shipmentRequest">
+                        <tr key={shipmentRequest.Id} class="slds-hint-parent" style={shipmentRequest.backgroundColor}>
+                            <template for:each={shipmentRequest.cells} for:item="cell">
+                                <td key={cell.cellId} class="slds-truncate" title={cell.value}>
+                                    <template lwc:if={cell.urlId}>
+                                        <a href={cell.urlId} class="slds-truncate" title={cell.value}
+                                            onclick={handleNavigateToRecord} data-record-id={cell.urlId}
+                                            data-status={shipmentRequest.Status__c}>{cell.value}</a>
+                                    </template>
+                                    <template lwc:else>
+                                        <span class="slds-truncate">{cell.value}
+                                            <template lwc:if={cell.icon}>
+                                                <lightning-icon icon-name={cell.icon} alternative-text="Status Icon"
+                                                    size="x-small" class="slds-m-left_xx-small"></lightning-icon>
+                                            </template>
+                                        </span>
+                                    </template>
+                                </td>
+                            </template>
+                            <td>
+                                <lightning-button-menu class="slds-m-left_xx-small" alternative-text="Show Actions"
+                                    icon-size="x-small" menu-alignment="auto">
+                                    <lightning-menu-item label="In Review" value="In Review"
+                                        onclick={handleUpdateShipment} data-record-id={shipmentRequest.Id}
+                                        data-shipment-request-id={shipmentRequest.ShipmentRequest_Id__c}
+                                        disabled={shipmentRequest.showInReviewMenu}>
+                                    </lightning-menu-item>
+                                    <lightning-menu-item label="Ready for Dispatch" value="Ready for Dispatch"
+                                        onclick={handleUpdateShipment} data-record-id={shipmentRequest.Id}
+                                        data-shipment-request-id={shipmentRequest.ShipmentRequest_Id__c}
+                                        disabled={shipmentRequest.showReadyForDispatchMenu}>
+                                    </lightning-menu-item>
+                                </lightning-button-menu>
+                            </td>
+
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </template>
+        <template lwc:if={noShippingRequests}>
+            <div class="slds-text-color_weak slds-p-around_medium">
+                <p>No shipment requests found.</p>
+            </div>
+        </template>
+    </lightning-card>
+</template>
