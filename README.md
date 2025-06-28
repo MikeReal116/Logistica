@@ -179,3 +179,6 @@ Two global value sets are used for maintainable picklists:
     - **Visual Styling:** Conditional row highlighting (green for “Assigned to Agent”, yellow for “In Review” + preview icon,)
       
 ![Screenshot 2025-06-28 at 22 54 45](https://github.com/user-attachments/assets/af847ce6-4275-4d3d-a081-4f2c11b8e39e)
+
+![logistica drawio](https://github.com/user-attachments/assets/bac8476c-6098-439c-a548-bf8b6596b62a)
+
