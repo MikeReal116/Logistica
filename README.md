@@ -45,6 +45,7 @@ Manage region‐to‐country mappings in a hierarchy.
     - Region records have `Type__c = Region` and no parent.
     - Country records have `Type__c = Country` and a lookup parent to their Region record.
     - On the Region detail page, all child Country records appear in a related list.
+![Screenshot 2025-06-28 at 22 52 30](https://github.com/user-attachments/assets/8d1fbf52-c207-4e69-a6fd-87f56e362f54)
 
 ---
 
@@ -128,8 +129,6 @@ Two global value sets are used for maintainable picklists:
 
 ---
 
----
-
 ## Carrier API & Callback Logic (Org B)
 
 1. **Endpoint:** `POST /services/apexrest/CarrierAPI`
@@ -178,3 +177,5 @@ Two global value sets are used for maintainable picklists:
     - **Status Filter:** Status filter above the table to filter rows by one or more `Status__c` values
     - **Real-Time Updates:** Subscribes to `ShipmentRequest_Event__e` for automatic updates
     - **Visual Styling:** Conditional row highlighting (green for “Assigned to Agent”, yellow for “In Review” + preview icon,)
+      
+![Screenshot 2025-06-28 at 22 54 45](https://github.com/user-attachments/assets/af847ce6-4275-4d3d-a081-4f2c11b8e39e)
