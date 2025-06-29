@@ -4,12 +4,14 @@ private with sharing class DispatchToCarrierTest {
     private static void itShouldDispatchShipmentRequest() {
         String shipmentRequestId = '12345678';
         DispatchToCarrier dispatchJob = new DispatchToCarrier(shipmentRequestId);
-
-        Test.setMock(HttpCalloutMock.class, new RESTHttpCalloutMock(200, 'success', ''));
+        RESTHttpCalloutMock mock = new RESTHttpCalloutMock(200, 'success', '');
+        Test.setMock(HttpCalloutMock.class, mock);
 
         Test.startTest();
         System.enqueueJob(dispatchJob);
+        System.Assert.isTrue(Limits.getQueueableJobs() > 0, 'Queueable job should be enqueued successfully');
         Test.stopTest();
-        System.Assert.isTrue(true, 'Dispatch job should be enqueued successfully');
+
+        System.Assert.areEqual(200, mock.response.getStatusCode(), 'Callout should return 200 OK');
     }
 }
